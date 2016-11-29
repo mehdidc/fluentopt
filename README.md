@@ -11,5 +11,5 @@ the goal of fluentopt is to provide  hyper-parameter optimization library where 
 - the optimization loop is controlled by the user (but we will provide also helpers).
 - the points can be represented by a python dictionary to express conditionals rather than just a vector.
 - the priors of hyper-parameters are not restricted to some pre-defined probability distributions, users will just provide  
-  samplers in python code, that is, a function that takes a seed and returns a python dictionary.
+  samplers as a python function, that is, a function that takes a seed and returns a python dictionary.
 
