@@ -4,7 +4,7 @@ Most hyper-parameter optimization libraries impose three main restrictions :
 
 - they control the optimization loop
 - they force the points to be represented by vectors
-- they priors are very restricted, e.g gaussian, uniform or discrete uniform
+- the priors are very restricted, e.g gaussian, uniform or discrete uniform
 
 the goal of fluentopt is to provide  hyper-parameter optimization library where :
 
