@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to sklearn-template's documentation!
+Welcome to fluentopt documentation!
 ============================================
 
 This project is a reference implementation to anyone who wishes to develop
@@ -17,9 +17,6 @@ contains a single estimator with unit tests.
        api
        auto_examples/index
        ...
-
-See the `README <https://github.com/vighneshbirodkar/project-template/blob/master/README.md>`_
-for more information.
 
 
 Indices and tables
