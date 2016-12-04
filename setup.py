@@ -18,11 +18,11 @@ except ImportError:
     print('scipy is required during installation')
     sys.exit(1)
 
-setup(name='sklearn-template',
-      version='0.0.3',
-      description='A template for scikit-learn compatible packages',
-      author='Vighnesh Birodkar',
+setup(name='fluentopt',
+      version='0.0.1',
+      description='A flexible hyper-parameter optimization library',
+      author='Mehdi Cherti',
       packages=find_packages(),
       install_requires=INSTALL_REQUIRES,
-      author_email='vighneshbirodkar@nyu.edu',
+      author_email='mehdicherti@gmail.com',
       )
