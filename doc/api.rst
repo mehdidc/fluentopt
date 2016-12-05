@@ -1,4 +1,6 @@
 API Documentation
 =================
 
-* :doc:`template`
+.. automodule:: fluentopt.base
+   :members:
+
