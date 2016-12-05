@@ -37,7 +37,7 @@ class RandomSearch(OptimizerWithHistory):
     """
 
     def __init__(self, sampler, random_state=None):
-        super(self, RandomSearch).__init__()
+        super(RandomSearch, self).__init__()
         self.sampler = check_sampler(sampler)
         self.rng = check_random_state(random_state)
 
