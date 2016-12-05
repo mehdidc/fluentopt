@@ -5,5 +5,5 @@ set -e
 mkdir -p $TEST_DIR
 
 cd $TEST_DIR
-
+echo $MODULE
 pytest -k $MODULE
