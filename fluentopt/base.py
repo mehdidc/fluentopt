@@ -54,7 +54,7 @@ class OptimizerWithHistory(Optimizer):
 
     def update_many(self, xlist, ylist):
         assert len(xlist) == len(ylist), "xlist and ylist should have the same length"
-        check_types_coherence(self.input_history_[-2:] + xlist)
+        check_types_coherence(self.input_history_[-1:] + xlist)
         check_if_list_of_scalars(ylist)
         self.input_history_.extend(xlist)
         self.output_history_.extend(ylist)
