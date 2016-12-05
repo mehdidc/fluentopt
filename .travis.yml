@@ -20,4 +20,4 @@ env:
 
 install: source ci_scripts/travis/install.sh
 script: pytest
-after_success: source ci_scripts/travis/success.sh
+#after_success: source ci_scripts/travis/success.sh
