@@ -10,4 +10,4 @@ clean:
 	$(PYTHON) setup.py clean
 
 test: inplace
-	$(PYTEST) -v
+	$(PYTEST) --cov=fluentopt -v
