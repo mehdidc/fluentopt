@@ -30,3 +30,6 @@ def check_types_coherence(xlist, varname='xlist'):
 def check_if_list_of_scalars(ylist, varname='ylist'):
     assert all(type(y) == float or type(y) == int for y in ylist), 'The list {} should only contain'.format(varname)
     return ylist
+
+def argmax(x):
+    return max(range(len(x)), key=lambda i:x[i])
