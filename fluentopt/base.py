@@ -28,7 +28,7 @@ class Optimizer:
 
         Parameters
         ----------
-        xlist : list of dicts, or lists or scalars
+        xlist : list of dicts, or list of lists or list of scalars
         outputs: list of scalars
         """
         raise NotImplementedError()
