@@ -6,6 +6,11 @@ should follow.
 from .utils import check_types_coherence
 from .utils import check_if_list_of_scalars
 
+__all__ = [
+    "Optimizer",
+    "OptimizerWithHistory"
+]
+
 class Optimizer(object):
     """
     Optimizer base class
