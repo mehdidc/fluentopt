@@ -1,7 +1,10 @@
 """
-
+This module contains the RandomSearch class, which is class
+that just samples randomly the next input to evaluate, without
+using a surrogate.
 """
 from .base import Optimizer
+from .base import OptimizerWithHistory
 from .utils import check_random_state
 from .utils import check_sampler
 
@@ -9,7 +12,7 @@ __all__ = [
     "RandomSearch"
 ]
 
-class RandomSearch(Optimizer):
+class RandomSearch(OptimizerWithHistory):
     """
     a random search optimizer.
     This optimizer is completely random, it does not use
@@ -34,17 +37,9 @@ class RandomSearch(Optimizer):
     """
 
     def __init__(self, sampler, random_state=None):
+        super().__init__()
         self.sampler = check_sampler(sampler)
         self.rng = check_random_state(random_state)
-        self.input_history_ = []
-        self.output_history_ = []
-
-    def update(self, x, y):
-        self.update_many([x], [y])
-
-    def update_many(self, xlist, ylist):
-        self.input_history_.extend(xlist)
-        self.output_history_.extend(ylist)
 
     def suggest(self):
         return self.sampler(self.rng)
