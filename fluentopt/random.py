@@ -39,10 +39,10 @@ class RandomSearch(Optimizer):
         self.input_history_ = []
         self.output_history_ = []
 
-    def update_one(self, x, y):
-        self.update([x], [y])
+    def update(self, x, y):
+        self.update_many([x], [y])
 
-    def update(self, xlist, ylist):
+    def update_many(self, xlist, ylist):
         self.input_history_.extend(xlist)
         self.output_history_.extend(ylist)
 

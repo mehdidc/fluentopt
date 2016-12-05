@@ -13,7 +13,7 @@ n_iter = 1000
 for _ in range(n_iter):
     x = opt.suggest()
     y = feval(x)
-    opt.update_one(x=x, y=y)
+    opt.update(x=x, y=y)
 
 idx = np.argmin(opt.output_history_)
 best_input = opt.input_history_[idx]
