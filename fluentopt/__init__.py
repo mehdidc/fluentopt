@@ -1,6 +1,5 @@
-from .template import (TemplateEstimator, TemplateClassifier,
-                       TemplateTransformer)
-from . import template
+from .random import RandomSearch
 
-__all__ = ['TemplateEstimator', 'TemplateClassifier',
-           'TemplateTransformer', 'template']
+__all__ = [
+    "RandomSearch"
+]
