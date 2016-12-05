@@ -23,25 +23,28 @@ class RandomSearch(Optimizer):
     sampler : callable
         a callable used to sample an input for further evaluation.
         it takes one argument, a random number generator following the API
-        of numpy.random and returns a dict.
+        of numpy.random and returns a dict, a list or a scalar.
     random_state : int or None, optional
         controls the random seed used by `sampler`.
 
     Attributes
     ----------
-        input_history_ : list of input suggestions made
-            by the optimizer.
+        input_history_ : list of inputs evaluated
+        output_history_: outputs corresponding to the evaluated inputs
     """
 
     def __init__(self, sampler, random_state=None):
         self.sampler = check_sampler(sampler)
         self.rng = check_random_state(random_state)
         self.input_history_ = []
+        self.output_history_ = []
 
-    def update(self, inputs, outputs):
-        pass
+    def update_one(self, x, y):
+        self.update([x], [y])
+
+    def update(self, xlist, ylist):
+        self.input_history_.extend(xlist)
+        self.output_history_.extend(ylist)
 
     def suggest(self):
-        sample = self.sampler(self.rng)
-        self.input_history_.append(sample)
-        return sample
+        return self.sampler(self.rng)
