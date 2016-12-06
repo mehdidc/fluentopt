@@ -1,14 +1,31 @@
 API Documentation
 =================
 
+Base
+====
+
 .. automodule:: fluentopt.base
    :members:
 
-.. automodule:: fluentopt.random
+Optimizers
+==========
+
+.. autoclass:: fluentopt.random.RandomSearch
    :members:
 
-.. automodule:: fluentopt.bandit
+
+.. autoclass:: fluentopt.bandit.Bandit
    :members:
 
-.. automodule:: fluentopt.transform
+
+Transformers
+============
+
+.. automodule:: fluentopt.transformers
+   :members:
+
+Utilss
+=====
+
+.. automodule:: fluentopt.utils
    :members:
