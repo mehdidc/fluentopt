@@ -7,3 +7,8 @@ API Documentation
 .. automodule:: fluentopt.random
    :members:
 
+.. automodule:: fluentopt.bandit
+   :members:
+
+.. automodule:: fluentopt.transform
+   :members:
