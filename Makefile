@@ -10,4 +10,4 @@ clean:
 	$(PYTHON) setup.py clean
 
 test: inplace
-	$(PYTEST) --cov=fluentopt -v
+	$(PYTEST) --cov=fluentopt --cov-report term-missing -v
