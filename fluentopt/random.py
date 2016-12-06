@@ -32,8 +32,9 @@ class RandomSearch(OptimizerWithHistory):
 
     Attributes
     ----------
-        input_history_ : list of inputs evaluated
-        output_history_: outputs corresponding to the evaluated inputs
+        `input_history_` : list of inputs evaluated
+
+        `output_history_` : outputs corresponding to the evaluated inputs
     """
 
     def __init__(self, sampler, random_state=None):

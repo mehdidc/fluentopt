@@ -63,6 +63,11 @@ sphinx_gallery_conf = {
     # path where to save gallery generated examples
     'gallery_dirs'  : 'auto_examples'}
 
+autosummary_generate = True
+numpydoc_show_class_members = False
+
+autodoc_default_flags = ['members', 'inherited-members']
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
