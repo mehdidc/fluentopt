@@ -1,6 +1,8 @@
 # fluentopt
 
 A flexible hyper-parameter optimization library.
+The full documentation is available at <http://fluentopt.readthedocs.io/en/latest/>
+
 Most hyper-parameter optimization libraries impose three main restrictions :
 
 - they control the optimization loop
