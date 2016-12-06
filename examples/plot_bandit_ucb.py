@@ -1,10 +1,10 @@
 """
 ======================================================
-Plotting bandit vs random behavior
+Plotting bandit ucb behavior
 ======================================================
 
-Show the evolution of the current min with bandit and compare
-with random search.
+Show the evolution of the current min and the selected input
+with bandit ucb.
 """
 
 import numpy as np
