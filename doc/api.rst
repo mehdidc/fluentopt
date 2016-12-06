@@ -13,10 +13,15 @@ Optimizers
 .. autoclass:: fluentopt.random.RandomSearch
    :members:
 
-
 .. autoclass:: fluentopt.bandit.Bandit
    :members:
 
+Scores
+======
+
+.. autofunction:: fluentopt.bandit.ucb_maximize
+
+.. autofunction:: fluentopt.bandit.ucb_minimize
 
 Transformers
 ============
@@ -24,7 +29,7 @@ Transformers
 .. automodule:: fluentopt.transformers
    :members:
 
-Utilss
+Utils
 =====
 
 .. automodule:: fluentopt.utils

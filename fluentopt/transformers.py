@@ -12,7 +12,7 @@ from .utils import dict_vectorizer
 __all__ = [
     "Wrapper",
     "vectorize",
-    "vectorize_list_of_lists",
+    "vectorize_list_of_varying_length_lists",
     "vectorize_list_of_dicts"
 ]
 

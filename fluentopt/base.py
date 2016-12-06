@@ -9,7 +9,8 @@ from sklearn.metrics import r2_score
 
 __all__ = [
     "Optimizer",
-    "OptimizerWithHistory"
+    "OptimizerWithHistory",
+    "OptimizerWithSurrogate"
 ]
 
 class Optimizer(object):
@@ -24,7 +25,6 @@ class Optimizer(object):
         Parameters
         ----------
         x: dict, or list or scalar
-        outputs: scalar
         """
         self.update_many([x], [y])
 
@@ -35,7 +35,6 @@ class Optimizer(object):
         Parameters
         ----------
         xlist : list of dicts, or list of lists or list of scalars
-        outputs: list of scalars
         """
         raise NotImplementedError()
 

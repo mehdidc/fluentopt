@@ -15,7 +15,8 @@ __all__ = [
     "check_if_list_of_scalars",
     "argmax",
     "flatten_dict",
-    "dict_vectorizer"
+    "dict_vectorizer",
+    "RandomForestRegressorWithUncertainty"
 ]
 
 def check_sampler(sampler):
@@ -80,7 +81,6 @@ def dict_vectorizer(dlist, colnames, missing=np.nan):
 
     Parameters
     ----------
-
     dlist : list of dicts
 
     colnames : list of strings
@@ -100,7 +100,11 @@ def dict_vectorizer(dlist, colnames, missing=np.nan):
     return np.array(dlist_)
 
 class RandomForestRegressorWithUncertainty(RandomForestRegressor):
-
+    """
+    an extension of RandomForestRegressor with support of returning uncertainty.
+    it just takes the trees and compute the std of the predicted values for each
+    tree.
+    """
     def predict(self, X, return_std=False):
         if return_std:
             trees = self.estimators_
