@@ -4,13 +4,26 @@ surrogates.
 """
 
 from .base import OptimizerWithSurrogate
+from .transformers import as_2d
 from .utils import check_random_state
 from .utils import check_sampler
 from .utils import argmax
+from .transformers import Wrapper
+
+from sklearn.gaussian_process import GaussianProcessRegressor
 
 __all__ = [
     "Bandit"
 ]
+
+
+def ucb_maximize(model, inputs):
+    pred, std = model.predict(inputs, return_std=True)
+    return pred + std
+
+def ucb_minimize(model, inputs):
+    pred, std = model.predict(inputs, return_std=True)
+    return -(pred - std)
 
 class Bandit(OptimizerWithSurrogate):
     """
@@ -28,7 +41,7 @@ class Bandit(OptimizerWithSurrogate):
         it takes one argument, a random number generator following the API
         of numpy.random and returns a dict, a list or a scalar.
 
-    model : scikit-learn like model instance, optional(default is ...)
+    model : scikit-learn like model instance, optional(default is GaussianProcessRegressor)
 
     nb_suggestions : int, optional[default=100]
         number of suggestions to sample from the `sampler` used
@@ -48,24 +61,24 @@ class Bandit(OptimizerWithSurrogate):
         output_history_: outputs corresponding to the evaluated inputs
 
     """
-    def __init__(self, sampler, model=None,
+    def __init__(self,
+                 sampler,
+                 model=Wrapper(GaussianProcessRegressor()),
                  nb_suggestions=100,
-                 score=ucb,
+                 score=ucb_maximize,
                  random_state=None):
-        super(OptimizerWithSurrogate, self).__init__(model)
+        super(Bandit, self).__init__(model)
         self.sampler = check_sampler(sampler)
         self.rng = check_random_state(random_state)
         self.nb_suggestions = nb_suggestions
         self.score = score
 
     def get_scores(self, inputs):
+        """ use `score` to get the list of scores of the `inputs`"""
         return self.score(self.model, inputs)
 
     def suggest(self):
         xnext = [self.sampler(self.rng) for _ in range(self.nb_suggestions)]
         scores = self.get_scores(xnext)
+        print(xnext[argmax(scores)])
         return xnext[argmax(scores)]
-
-def ucb(model, inputs):
-    pred, std = model.predict(inputs, return_std=True)
-    return pred + std

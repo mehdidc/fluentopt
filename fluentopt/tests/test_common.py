@@ -1,8 +1,15 @@
+from functools import partial
 import pytest
+
 from fluentopt import RandomSearch
+from fluentopt import Bandit
+from fluentopt.bandit import ucb_minimize
+from fluentopt.bandit import ucb_maximize
 
 opts = [
-    RandomSearch
+    RandomSearch,
+    partial(Bandit, score=ucb_minimize),
+    partial(Bandit, score=ucb_maximize),
 ]
 
 def unif_sampler(rng):
