@@ -5,24 +5,46 @@ surrogates.
 
 from .base import OptimizerWithSurrogate
 from .transformers import as_2d
+from .transformers import Wrapper
 from .utils import check_random_state
 from .utils import check_sampler
 from .utils import argmax
-from .transformers import Wrapper
 
 from sklearn.gaussian_process import GaussianProcessRegressor
 
 __all__ = [
-    "Bandit"
+    "Bandit",
+    "ucb_maximize",
+    "ucb_minimize"
 ]
 
-
 def ucb_maximize(model, inputs):
+    """
+    UCB score that can be used as
+    the `score` parameter of the `Bandit` optimizer.
+    Use this score if the objective is maximization with ucb.
+    UCB scores assume that the model can return std, that is,
+    `model.predict` shoud accept a `return_std` parameter.
+    An exception will be thrown if this is not the case.
+    """
+    # ucb scores assume that the model can return std
+    # an exception will be thrown if this is not the case
     pred, std = model.predict(inputs, return_std=True)
     return pred + std
 
 def ucb_minimize(model, inputs):
+    """
+    UCB score that can be used as
+    the `score` parameter of the `Bandit` optimizer.
+    Use this score if the objective is minimization.
+    UCB scores assume that the model can return std, that is,
+    `model.predict` shoud accept a `return_std` parameter.
+    An exception will be thrown if this is not the case.
+    """
+    # ucb scores assume that the model can return std
+    # an exception will be thrown if this is not the case
     pred, std = model.predict(inputs, return_std=True)
+    # the -(...) because we always maximize in the Bandit `Optimizer`
     return -(pred - std)
 
 class Bandit(OptimizerWithSurrogate):
@@ -41,16 +63,18 @@ class Bandit(OptimizerWithSurrogate):
         it takes one argument, a random number generator following the API
         of numpy.random and returns a dict, a list or a scalar.
 
-    model : scikit-learn like model instance, optional(default is GaussianProcessRegressor)
+    model : scikit-learn like model instance, optional
+        default is Wrapper(GaussianProcessRegressor)
 
     nb_suggestions : int, optional[default=100]
-        number of suggestions to sample from the `sampler` used
-        to select the next input to evaluate.
+        number of random samples to draw from the `sampler` in each
+        call of `suggest` to select the next input to evaluate.
 
-    score : callable, optional[default=ucb]
+    score : callable, optional[default=ucb_maximize]
         score function to use when selecting the next input to evaluate.
         it takes two arguments, a model and a list of inputs.
         it returns a list of scores.
+        Available scores are :  `ucb_maximize`, `ucb_minimize`.
 
     random_state : int or None, optional
         controls the random seed used by `sampler`.

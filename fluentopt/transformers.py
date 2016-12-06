@@ -39,9 +39,11 @@ def vectorize(X):
     return X
 
 def vectorize_list_of_dicts(X):
+    #TODO
     return X
 
 def vectorize_list_of_lists(X):
+    #TODO
     return X
 
 class Wrapper(object):
@@ -50,6 +52,13 @@ class Wrapper(object):
     inputs and outputs using `transform_X` and `transform_y`.
     This is used to vectorize easily inputs that are passed
     to the model.
+
+    Parameters
+    ----------
+    transform_X : callable
+        used to transform the inputs before passing them to fit and predict
+    transform_y : callable
+        used to transform the outputs before passing them to fit
     """
     def __init__(self, model, transform_X=vectorize, transform_y=lambda y:y):
         self.model = model
@@ -63,5 +72,7 @@ class Wrapper(object):
         return self.model.fit(X, y=y)
 
     def predict(self, X, **kwargs):
+        # kwargs for handling models which have for instance
+        # return_std
         X = self.transform_X(X)
         return self.model.predict(X, **kwargs)

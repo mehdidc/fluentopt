@@ -8,7 +8,8 @@ from sklearn.utils import check_random_state
 __all__ = [
     "check_sampler",
     "check_types_coherence",
-    "check_if_list_of_scalars"
+    "check_if_list_of_scalars",
+    "argmax"
 ]
 
 def check_sampler(sampler):
