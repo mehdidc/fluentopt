@@ -36,7 +36,7 @@ def sampler(rng):
 feval = branin()
 
 opt = Bandit(sampler=sampler, score=ucb_minimize)
-n_iter = 100
+n_iter = 200
 for _ in range(n_iter):
     x = opt.suggest()
     y = feval(x)
@@ -54,5 +54,10 @@ ax1.set_xlabel('iteration')
 ax1.set_ylabel('current min')
 X = [[inp['a'], inp['b']] for inp in opt.input_history_]
 X = np.array(X)
-ax2.scatter(X[:, 0], X[:, 1], c=iters, cmap='viridis')
+
+sc = ax2.scatter(X[:, 0], X[:, 1], c=iters, cmap='viridis', s=20)
+ax2.set_xlabel('x')
+ax2.set_ylabel('y')
+ax2.set_title('Explored points (color is iteration number)')
+fig.colorbar(sc)
 plt.show()
