@@ -37,7 +37,6 @@ feval = branin()
 
 opt = Bandit(sampler=sampler, score=ucb_minimize)
 n_iter = 100
-opt.update(x={'a': 0, 'b': 0}, y=feval({'a': 0, 'b': 0}))
 for _ in range(n_iter):
     x = opt.suggest()
     y = feval(x)
