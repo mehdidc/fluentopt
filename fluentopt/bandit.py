@@ -80,5 +80,4 @@ class Bandit(OptimizerWithSurrogate):
     def suggest(self):
         xnext = [self.sampler(self.rng) for _ in range(self.nb_suggestions)]
         scores = self.get_scores(xnext)
-        print(xnext[argmax(scores)])
         return xnext[argmax(scores)]
