@@ -35,7 +35,7 @@ best_input = opt.input_history_[idx]
 best_output = opt.output_history_[idx]
 print('best input : {:.2f}, best output : {:.2f}'.format(best_input, best_output))
 iters = np.arange(len(opt.output_history_))
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
 
 ax1.plot(iters, minimum.accumulate(opt.output_history_))
 ax1.set_xlabel('iteration')
