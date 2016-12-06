@@ -1,6 +1,8 @@
 from functools import partial
 import pytest
 
+import numpy as np
+
 from fluentopt import RandomSearch
 from fluentopt import Bandit
 from fluentopt.bandit import ucb_minimize
@@ -14,6 +16,12 @@ opts = [
 
 def unif_sampler(rng):
     return rng.uniform(-1, 1)
+
+def dict_unif_sampler(rng):
+    return {
+        'x': unif_sampler(rng),
+        'y': unif_sampler(rng)
+    }
 
 @pytest.mark.parametrize("optimizer_cls", opts)
 def test_update(optimizer_cls):

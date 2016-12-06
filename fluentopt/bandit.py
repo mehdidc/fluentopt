@@ -3,14 +3,14 @@ This module provides bandit based optimizers that use
 surrogates.
 """
 
+from sklearn.gaussian_process import GaussianProcessRegressor
+
 from .base import OptimizerWithSurrogate
 from .transformers import as_2d
 from .transformers import Wrapper
 from .utils import check_random_state
 from .utils import check_sampler
 from .utils import argmax
-
-from sklearn.gaussian_process import GaussianProcessRegressor
 
 __all__ = [
     "Bandit",
@@ -64,7 +64,13 @@ class Bandit(OptimizerWithSurrogate):
         of numpy.random and returns a dict, a list or a scalar.
 
     model : scikit-learn like model instance, optional
-        default is Wrapper(GaussianProcessRegressor)
+        default is fluentopt.transformers.Wrapper(GaussianProcessRegressor(normalize_y=True)).
+        Alternatives :
+            - fluentopt.transformers.Wrapper(fluentopt.utils.RandomForestRegressorWithUncertainty())
+            - or use another model which supports returning uncertainty in prediction:
+                fluentopt.transformers.Wrapper(your_model())
+            - you can also extend or change the Wrapper, the goal of the wrapper is to feed a vectorized
+              input to the wrapped model.
 
     nb_suggestions : int, optional[default=100]
         number of random samples to draw from the `sampler` in each
@@ -74,7 +80,7 @@ class Bandit(OptimizerWithSurrogate):
         score function to use when selecting the next input to evaluate.
         it takes two arguments, a model and a list of inputs.
         it returns a list of scores.
-        Available scores are :  `ucb_maximize`, `ucb_minimize`.
+        Available scores are : `ucb_maximize`, `ucb_minimize`.
 
     random_state : int or None, optional
         controls the random seed used by `sampler`.
@@ -87,7 +93,7 @@ class Bandit(OptimizerWithSurrogate):
     """
     def __init__(self,
                  sampler,
-                 model=Wrapper(GaussianProcessRegressor()),
+                 model=Wrapper(GaussianProcessRegressor(normalize_y=True)),
                  nb_suggestions=100,
                  score=ucb_maximize,
                  random_state=None):
@@ -102,6 +108,11 @@ class Bandit(OptimizerWithSurrogate):
         return self.score(self.model, inputs)
 
     def suggest(self):
-        xnext = [self.sampler(self.rng) for _ in range(self.nb_suggestions)]
-        scores = self.get_scores(xnext)
-        return xnext[argmax(scores)]
+
+        # if the history is empty, just sample randomly (because we don't have yet a surrogate)
+        if len(self.input_history_) == 0:
+            return self.sampler(self.rng)
+        else:
+            xnext = [self.sampler(self.rng) for _ in range(self.nb_suggestions)]
+            scores = self.get_scores(xnext)
+            return xnext[argmax(scores)]

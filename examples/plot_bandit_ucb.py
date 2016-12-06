@@ -24,7 +24,6 @@ def feval(x):
 
 opt = Bandit(sampler=sampler, score=ucb_minimize)
 n_iter = 100
-opt.update(x=1., y=feval(1.))
 for _ in range(n_iter):
     x = opt.suggest()
     y = feval(x)
