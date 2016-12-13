@@ -7,6 +7,7 @@ import collections
 
 import numpy as np
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.utils import check_random_state
 
 __all__ = [
     "check_sampler",
@@ -15,7 +16,8 @@ __all__ = [
     "argmax",
     "flatten_dict",
     "dict_vectorizer",
-    "RandomForestRegressorWithUncertainty"
+    "RandomForestRegressorWithUncertainty",
+    "check_random_state"
 ]
 
 def check_sampler(sampler):
