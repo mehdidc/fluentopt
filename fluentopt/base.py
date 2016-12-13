@@ -5,7 +5,6 @@ should follow.
 """
 from .utils import check_types_coherence
 from .utils import check_if_list_of_scalars
-from sklearn.metrics import r2_score
 
 __all__ = [
     "Optimizer",

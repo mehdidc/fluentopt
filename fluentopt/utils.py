@@ -6,7 +6,6 @@ of the parameters that a function or a class gets as an input.
 import collections
 
 import numpy as np
-from sklearn.utils import check_random_state
 from sklearn.ensemble import RandomForestRegressor
 
 __all__ = [
