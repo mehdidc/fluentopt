@@ -61,7 +61,7 @@ def vectorize(X):
     if is_list_of_dicts(X):
         X = vectorize_list_of_dicts(X)
     elif is_list_of_varying_length_lists(X):
-        X = vectorize_list_varying_length_lists(X)
+        X = vectorize_list_of_varying_length_lists(X)
     else:
         X = np.array(X)
     X = as_2d(X)
