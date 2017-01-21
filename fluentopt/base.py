@@ -12,6 +12,7 @@ __all__ = [
     "OptimizerWithSurrogate"
 ]
 
+
 class Optimizer(object):
     """
     Optimizer base class
@@ -47,6 +48,7 @@ class Optimizer(object):
         """
         raise NotImplementedError()
 
+
 class OptimizerWithHistory(Optimizer):
 
     def __init__(self):
@@ -59,6 +61,7 @@ class OptimizerWithHistory(Optimizer):
         check_if_list_of_scalars(ylist)
         self.input_history_.extend(xlist)
         self.output_history_.extend(ylist)
+
 
 class OptimizerWithSurrogate(OptimizerWithHistory):
 

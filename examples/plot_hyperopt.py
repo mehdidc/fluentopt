@@ -24,8 +24,10 @@ np.random.seed(42)
 data = load_breast_cancer()
 data_X, data_y = data['data'], data['target']
 
+
 def sampler(rng):
     return {'max_depth': rng.randint(1, 100), 'n_estimators': rng.randint(1, 300)}
+
 
 def feval(d):
     max_depth = d['max_depth']
@@ -34,7 +36,8 @@ def feval(d):
     scores = cross_val_score(clf, data_X, data_y, cv=5, scoring='accuracy')
     return np.mean(scores) - np.std(scores)
 
-opt = Bandit(sampler=sampler, score=ucb_maximize, model=Wrapper(RandomForestRegressorWithUncertainty()))
+opt = Bandit(sampler=sampler, score=ucb_maximize,
+             model=Wrapper(RandomForestRegressorWithUncertainty()))
 n_iter = 100
 for i in range(n_iter):
     print('iter {}...'.format(i))

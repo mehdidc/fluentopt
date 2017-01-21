@@ -10,6 +10,7 @@ from fluentopt.transformers import vectorize_list_of_varying_length_lists
 from fluentopt.transformers import vectorize_list_of_dicts
 from fluentopt.transformers import vectorize
 
+
 def test_is_list_of_dicts():
     assert is_list_of_dicts([])
     assert is_list_of_dicts([{'a': 5}, {'b': 2}])
@@ -17,10 +18,12 @@ def test_is_list_of_dicts():
     assert not is_list_of_dicts([[1], [2]])
     assert not is_list_of_dicts(['x', 'y'])
 
+
 def test_is_list_of_varying_length_lists():
     assert not is_list_of_varying_length_lists([])
     assert is_list_of_varying_length_lists([[1], [1, 2]])
     assert is_list_of_varying_length_lists([[1], [2], [3], [1, 2]])
+
 
 def test_vectorize_list_of_dicts():
     dlist = [

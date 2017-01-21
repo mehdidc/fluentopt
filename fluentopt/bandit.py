@@ -18,6 +18,7 @@ __all__ = [
     "ucb_minimize"
 ]
 
+
 def ucb_maximize(model, inputs):
     """
     UCB score that can be used as
@@ -31,6 +32,7 @@ def ucb_maximize(model, inputs):
     # an exception will be thrown if this is not the case
     pred, std = model.predict(inputs, return_std=True)
     return pred + std
+
 
 def ucb_minimize(model, inputs):
     """
@@ -46,6 +48,7 @@ def ucb_minimize(model, inputs):
     pred, std = model.predict(inputs, return_std=True)
     # the -(...) because we always maximize in the Bandit `Optimizer`
     return -(pred - std)
+
 
 class Bandit(OptimizerWithSurrogate):
     """
@@ -91,6 +94,7 @@ class Bandit(OptimizerWithSurrogate):
         output_history_: outputs corresponding to the evaluated inputs
 
     """
+
     def __init__(self,
                  sampler,
                  model=Wrapper(GaussianProcessRegressor(normalize_y=True)),

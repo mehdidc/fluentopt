@@ -20,28 +20,35 @@ __all__ = [
     "check_random_state"
 ]
 
+
 def check_sampler(sampler):
     """check whether sampler is a callable"""
     assert callable(sampler), 'The sampler should be callable'
     return sampler
 
+
 def _types_are_coherent(xlist):
     """return True if the elements of xlist all have the same type"""
     x0 = xlist[0]
-    types = map(lambda x:type(x), xlist)
+    types = map(lambda x: type(x), xlist)
     types = list(types)
-    return all(map(lambda t:t == type(x0) or t == type(None), types))
+    return all(map(lambda t: t == type(x0) or t == type(None), types))
+
 
 def check_types_coherence(xlist, varname='xlist'):
     assert _types_are_coherent(xlist), 'Types should be coherent in {}'.format(varname)
     return xlist
 
+
 def check_if_list_of_scalars(ylist, varname='ylist'):
-    assert all(isinstance(y, float) or isinstance(y, int) for y in ylist), 'The list {} should only contain'.format(varname)
+    assert all(isinstance(y, float) or isinstance(y, int)
+               for y in ylist), 'The list {} should only contain scalars'.format(varname)
     return ylist
 
+
 def argmax(x):
-    return max(range(len(x)), key=lambda i:x[i])
+    return max(range(len(x)), key=lambda i: x[i])
+
 
 def flatten_dict(D):
     """
@@ -65,13 +72,14 @@ def flatten_dict(D):
         elif isinstance(v, list) or isinstance(v, tuple):
             for i, l in enumerate(v):
                 if not isinstance(l, collections.Mapping):
-                    d[k+'_{}'.format(i)] = l
+                    d[k + '_{}'.format(i)] = l
                 else:
                     for e in v:
                         d.update(flatten_dict(e))
         else:
             d[k] = v
     return d
+
 
 def dict_vectorizer(dlist, colnames, missing=np.nan):
     """
@@ -100,12 +108,14 @@ def dict_vectorizer(dlist, colnames, missing=np.nan):
     dlist_ = [[d.get(col, missing) for col in colnames] for d in dlist]
     return np.array(dlist_)
 
+
 class RandomForestRegressorWithUncertainty(RandomForestRegressor):
     """
     an extension of RandomForestRegressor with support of returning uncertainty.
     it just takes the trees and compute the std of the predicted values for each
     tree.
     """
+
     def predict(self, X, return_std=False):
         if return_std:
             trees = self.estimators_

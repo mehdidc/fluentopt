@@ -14,14 +14,17 @@ opts = [
     partial(Bandit, score=ucb_maximize),
 ]
 
+
 def unif_sampler(rng):
     return rng.uniform(-1, 1)
+
 
 def dict_unif_sampler(rng):
     return {
         'x': unif_sampler(rng),
         'y': unif_sampler(rng)
     }
+
 
 @pytest.mark.parametrize("optimizer_cls", opts)
 def test_update(optimizer_cls):
@@ -41,6 +44,7 @@ def test_update(optimizer_cls):
     assert opt.input_history_ == [1, 2, 3, 4]
     assert opt.output_history_ == [5, 6, 7, 8]
 
+
 @pytest.mark.parametrize("optimizer_cls", opts)
 def test_coherence(optimizer_cls):
     opt = optimizer_cls(unif_sampler)
@@ -50,7 +54,8 @@ def test_coherence(optimizer_cls):
 
     opt = optimizer_cls(unif_sampler)
     pytest.raises(AssertionError, opt.update_many, xlist=[1, [7]], ylist=[2])
-    pytest.raises(AssertionError, opt.update_many, xlist=[1, 2, 3, 4, {'a': 5}], ylist=[2, 2, 2, 2, 2])
+    pytest.raises(AssertionError, opt.update_many, xlist=[
+                  1, 2, 3, 4, {'a': 5}], ylist=[2, 2, 2, 2, 2])
 
     opt = optimizer_cls(unif_sampler)
     pytest.raises(AssertionError, opt.update_many, xlist=[1, 2], ylist=[2])

@@ -14,6 +14,7 @@ from fluentopt.bandit import ucb_minimize
 
 np.random.seed(42)
 
+
 def branin(a=1, b=5.1 / (4 * np.pi**2), c=5. / np.pi,
            r=6, s=10, t=1. / (8 * np.pi)):
     """Branin-Hoo function is defined on the square x1 ∈ [-5, 10], x2 ∈ [0, 15].
@@ -28,6 +29,7 @@ def branin(a=1, b=5.1 / (4 * np.pi**2), c=5. / np.pi,
         return (a * (y - b * x ** 2 + c * x - r) ** 2 +
                 s * (1 - t) * np.cos(x) + s)
     return f
+
 
 def sampler(rng):
     return {'a': rng.uniform(-100, 100),

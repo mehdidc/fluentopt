@@ -12,6 +12,7 @@ __all__ = [
     "RandomSearch"
 ]
 
+
 class RandomSearch(OptimizerWithHistory):
     """
     a random search optimizer.

@@ -16,6 +16,7 @@ __all__ = [
     "vectorize_list_of_dicts"
 ]
 
+
 def as_2d(x):
     """
     transforms a list of scalars into a 2d numpy array by
@@ -27,10 +28,12 @@ def as_2d(x):
         x = x[:, np.newaxis]
     return x
 
+
 def is_list_of_dicts(X):
     if type(X) != list:
         return False
     return all(isinstance(x, dict) for x in X)
+
 
 def is_list_of_varying_length_lists(X):
     if type(X) != list:
@@ -40,6 +43,7 @@ def is_list_of_varying_length_lists(X):
         return False
     varying_length = len(set(map(len, X))) > 1
     return varying_length
+
 
 def vectorize(X):
     """
@@ -67,6 +71,7 @@ def vectorize(X):
     X = as_2d(X)
     return X
 
+
 def vectorize_list_of_dicts(dlist):
     """
     vectorize a list of dicts
@@ -84,14 +89,16 @@ def vectorize_list_of_dicts(dlist):
     dlist = [flatten_dict(d) for d in dlist]
     colnames = set([k for d in dlist for k in d.keys()])
     colnames = list(colnames)
-    colnames = sorted(colnames)#sort cols in alphabetical order
+    colnames = sorted(colnames)  # sort cols in alphabetical order
     arr = dict_vectorizer(dlist, colnames, missing=np.nan)
     return arr
+
 
 def vectorize_list_of_varying_length_lists(X):
     # just consider it as a dict and use vectorize_list_of_dicts
     dlist = [flatten_dict({'list': x}) for x in X]
     return vectorize_list_of_dicts(dlist)
+
 
 class Wrapper(object):
     """
@@ -111,7 +118,8 @@ class Wrapper(object):
     transform_y : callable
         used to transform the outputs before passing them to fit
     """
-    def __init__(self, model, transform_X=vectorize, transform_y=lambda y:y):
+
+    def __init__(self, model, transform_X=vectorize, transform_y=lambda y: y):
         self.model = model
         self.transform_X = transform_X
         self.transform_y = transform_y

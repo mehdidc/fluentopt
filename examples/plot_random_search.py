@@ -12,8 +12,10 @@ from scipy import minimum
 
 np.random.seed(42)
 
+
 def sampler(rng):
     return rng.uniform(-1, 1)
+
 
 def feval(x):
     return (x ** 2 - 2)
