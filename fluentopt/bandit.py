@@ -6,7 +6,6 @@ surrogates.
 from sklearn.gaussian_process import GaussianProcessRegressor
 
 from .base import OptimizerWithSurrogate
-from .transformers import as_2d
 from .transformers import Wrapper
 from .utils import check_random_state
 from .utils import check_sampler
