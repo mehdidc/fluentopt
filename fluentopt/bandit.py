@@ -19,7 +19,7 @@ __all__ = [
 ]
 
 
-def ucb_maximize(model, inputs):
+def ucb_maximize(model, inputs, kappa=1.96):
     """
     UCB score that can be used as
     the `score` parameter of the `Bandit` optimizer.
@@ -27,14 +27,23 @@ def ucb_maximize(model, inputs):
     UCB scores assume that the model can return std, that is,
     `model.predict` shoud accept a `return_std` parameter.
     An exception will be thrown if this is not the case.
+
+    Parameters
+    ==========
+
+    model : scikit-learn like estimator with return_std
+    inputs : numpy array
+    kappa : float
+        controls the tradeoff between exploration and exploitation
+        (higher value = more exploration)
     """
     # ucb scores assume that the model can return std
     # an exception will be thrown if this is not the case
     pred, std = model.predict(inputs, return_std=True)
-    return pred + std
+    return pred + kappa * std
 
 
-def ucb_minimize(model, inputs):
+def ucb_minimize(model, inputs, kappa=1.96):
     """
     UCB score that can be used as
     the `score` parameter of the `Bandit` optimizer.
@@ -42,12 +51,18 @@ def ucb_minimize(model, inputs):
     UCB scores assume that the model can return std, that is,
     `model.predict` shoud accept a `return_std` parameter.
     An exception will be thrown if this is not the case.
+
+    model : scikit-learn like estimator with return_std
+    inputs : numpy array
+    kappa : float
+        controls the tradeoff between exploration and exploitation
+        (higher value = more exploration)
     """
     # ucb scores assume that the model can return std
     # an exception will be thrown if this is not the case
     pred, std = model.predict(inputs, return_std=True)
     # the -(...) because we always maximize in the Bandit `Optimizer`
-    return -(pred - std)
+    return -(pred - kappa * std)
 
 
 class Bandit(OptimizerWithSurrogate):
