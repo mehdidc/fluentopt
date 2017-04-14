@@ -9,14 +9,14 @@ Also, the package 'cma' is needed and can be installed by pip.
 For each function, each algorithm is ran for independent trials
 and the results are all written in a csv file (by default benchmarks.csv).
 each row correspond to a trial for a given algo and function.
-The columns are: 
+The columns are:
     - 'func' : function name (str)
     - 'algo' : algo name (str)
     - 'nbeval' : nb of evaluations performed (int)
     - 'ybest' : the best output value found (float)
     - 'duration' : duration in seconds (float)
-[1] Nikolaus Hansen and Andreas Ostermeier, Completely derandomized 
-    self-adaptation in evolution strategies. 
+[1] Nikolaus Hansen and Andreas Ostermeier, Completely derandomized
+    self-adaptation in evolution strategies.
     Evolutionary computation, 9(2):159–195, 2001
 """
 import time
@@ -36,39 +36,45 @@ from cma import CMAEvolutionStrategy
 
 from clize import run
 
+
 def cma(fun, budget):
     sigma0 = 0.02
     range_ = fun.upper_bounds - fun.lower_bounds
     center = fun.lower_bounds + range_ / 2
     x0 = center
     options = dict(
-        scaling=range_/range_[0], 
+        scaling=range_ / range_[0],
         maxfevals=budget,
         verb_log=0,
-        verb_disp=1, 
+        verb_disp=1,
         verbose=1)
     es = CMAEvolutionStrategy(x0, sigma0 * range_[0], options)
     res = es.optimize(fun).result()
     xbest, ybest, nbeval, *rest = res
     return xbest, ybest, nbeval
 
+
 def ucb(fun, budget):
     sampler = _uniform_sampler(low=fun.lower_bounds, high=fun.upper_bounds)
     opt = Bandit(sampler=sampler, score=ucb_minimize, nb_suggestions=100)
     return _run_opt(opt, fun, budget)
+
 
 def random_search(fun, budget):
     sampler = _uniform_sampler(low=fun.lower_bounds, high=fun.upper_bounds)
     opt = RandomSearch(sampler=sampler)
     return _run_opt(opt, fun, budget)
 
+
 def _uniform_sampler(low, high):
     low = np.array(low)
     high = np.array(high)
     dim = len(low)
+
     def sampler_(rng):
         return rng.uniform(0, 1, size=dim) * (high - low) + low
     return sampler_
+
 
 def _run_opt(opt, feval, budget):
     for _ in range(budget):
@@ -81,10 +87,11 @@ def _run_opt(opt, feval, budget):
     nbeval = budget
     return xbest, ybest, nbeval
 
+
 def main(nb_trials=15, budget_per_dim=100, output='benchmark.csv'):
     suite_instance = "year:2016"
     suite_name = "bbob"
-    suite_options = "" 
+    suite_options = ""
     suite = Suite(suite_name, suite_instance, suite_options)
     algos = [random_search, cma, ucb]
     stats = []

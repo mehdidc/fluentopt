@@ -7,8 +7,8 @@ import collections
 
 import numpy as np
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.utils import check_random_state
 
+import random
 __all__ = [
     "check_sampler",
     "check_types_coherence",
@@ -19,6 +19,10 @@ __all__ = [
     "RandomForestRegressorWithUncertainty",
     "check_random_state"
 ]
+
+
+def check_random_state(seed):
+    return random.Random(seed)
 
 
 def check_sampler(sampler):
