@@ -3,6 +3,7 @@ This module contains utility functions used by other modules.
 It contains mostly validation functions to check for validity
 of the parameters that a function or a class gets as an input.
 """
+from __future__ import absolute_import
 import collections
 
 import numpy as np
