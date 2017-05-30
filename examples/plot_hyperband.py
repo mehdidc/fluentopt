@@ -1,3 +1,11 @@
+"""
+======================================================
+Hyperband
+======================================================
+
+An example with usage of hyperband.
+"""
+
 import numpy as np
 
 from sklearn.ensemble import GradientBoostingRegressor
