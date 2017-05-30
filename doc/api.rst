@@ -16,6 +16,10 @@ Optimizers
 .. autoclass:: fluentopt.bandit.Bandit
    :members:
 
+.. autofunction:: fluentopt.hyperband.hyperband
+   :members:
+
+
 Scores
 ======
 
