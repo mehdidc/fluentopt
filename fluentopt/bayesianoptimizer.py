@@ -1,8 +1,9 @@
 """
 This module provides bayesian optimizers.
 """
-
+import numpy as np
 from sklearn.gaussian_process import GaussianProcessRegressor
+from scipy.stats import norm
 
 from .base import OptimizerWithSurrogate
 from .transformers import Wrapper
@@ -10,10 +11,17 @@ from .utils import check_random_state
 from .utils import check_sampler
 from .utils import argmax
 
-__all__ = ["BayesianOptimizer", "ucb_maximize", "ucb_minimize"]
+__all__ = ["BayesianOptimizer", "ucb", "ei"]
+
+def ei(opt, inputs, eps=1e-7):
+    #http://ash-aldujaili.github.io/blog/2018/02/01/ei/
+    cur_best = np.max(opt.output_history_)
+    mu, std = opt.model.predict(inputs, return_std=True)
+    z = (cur_best - mu) / (std + eps)
+    return (cur_best - mu) * norm.cdf(z) + std * norm.pdf(z)
 
 
-def ucb_maximize(model, inputs, kappa=1.96):
+def ucb(opt, inputs, kappa=1.96):
     """
     UCB score that can be used as
     the `score` parameter of the `BayesianOptimizer`.
@@ -33,30 +41,8 @@ def ucb_maximize(model, inputs, kappa=1.96):
     """
     # ucb scores assume that the model can return std
     # an exception will be thrown if this is not the case
-    pred, std = model.predict(inputs, return_std=True)
+    pred, std = opt.model.predict(inputs, return_std=True)
     return pred + kappa * std
-
-
-def ucb_minimize(model, inputs, kappa=1.96):
-    """
-    UCB score that can be used as
-    the `score` parameter of the `BayesianOptimizer`.
-    Use this score if the objective is minimization.
-    UCB scores assume that the model can return std, that is,
-    `model.predict` shoud accept a `return_std` parameter.
-    An exception will be thrown if this is not the case.
-
-    model : scikit-learn like estimator with return_std
-    inputs : numpy array
-    kappa : float
-        controls the tradeoff between exploration and exploitation
-        (higher value = more exploration)
-    """
-    # ucb scores assume that the model can return std
-    # an exception will be thrown if this is not the case
-    pred, std = model.predict(inputs, return_std=True)
-    # the -(...) because we always maximize in the `BayesianOptimizer`
-    return -(pred - kappa * std)
 
 
 class BayesianOptimizer(OptimizerWithSurrogate):
@@ -92,7 +78,7 @@ class BayesianOptimizer(OptimizerWithSurrogate):
         score function to use when selecting the next input to evaluate.
         it takes two arguments, a model and a list of inputs.
         it returns a list of scores.
-        Available scores are : `ucb_maximize`, `ucb_minimize`.
+        Available scores are : `ucb`, `ei`.
 
     random_state : int or None, optional
         controls the random seed used by `sampler`.
@@ -109,7 +95,7 @@ class BayesianOptimizer(OptimizerWithSurrogate):
         sampler,
         model=Wrapper(GaussianProcessRegressor(normalize_y=True)),
         nb_suggestions=100,
-        score=ucb_maximize,
+        score=ei,
         random_state=None,
     ):
         super(BayesianOptimizer, self).__init__(model)
@@ -120,7 +106,7 @@ class BayesianOptimizer(OptimizerWithSurrogate):
 
     def get_scores(self, inputs):
         """ use `score` to get the list of scores of the `inputs`"""
-        return self.score(self.model, inputs)
+        return self.score(self, inputs)
 
     def suggest(self):
 

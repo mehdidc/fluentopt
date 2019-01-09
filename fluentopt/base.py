@@ -9,6 +9,7 @@ from .utils import check_if_list_of_scalars
 __all__ = ["Optimizer", "OptimizerWithHistory", "OptimizerWithSurrogate"]
 
 
+
 class Optimizer(object):
     """
     Optimizer base class
