@@ -22,7 +22,8 @@ def sampler(rng):
 
 
 def feval(x):
-    return (x ** 2 - 2)
+    return x ** 2 - 2
+
 
 opt = BayesianOptimizer(sampler=sampler, score=ucb_minimize)
 n_iter = 100
@@ -34,16 +35,16 @@ for _ in range(n_iter):
 idx = np.argmin(opt.output_history_)
 best_input = opt.input_history_[idx]
 best_output = opt.output_history_[idx]
-print('best input : {:.2f}, best output : {:.2f}'.format(best_input, best_output))
+print("best input : {:.2f}, best output : {:.2f}".format(best_input, best_output))
 iters = np.arange(len(opt.output_history_))
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
 
 ax1.plot(iters, minimum.accumulate(opt.output_history_))
-ax1.set_xlabel('iteration')
-ax1.set_ylabel('current $min_x({x**2-2})$')
+ax1.set_xlabel("iteration")
+ax1.set_ylabel("current $min_x({x**2-2})$")
 
 ax2.plot(iters, opt.input_history_)
-ax2.set_xlabel('iteration')
-ax2.set_ylabel('selected input')
+ax2.set_xlabel("iteration")
+ax2.set_ylabel("selected input")
 
 plt.show()

@@ -43,11 +43,8 @@ def cma(fun, budget):
     center = fun.lower_bounds + range_ / 2
     x0 = center
     options = dict(
-        scaling=range_ / range_[0],
-        maxfevals=budget,
-        verb_log=0,
-        verb_disp=1,
-        verbose=1)
+        scaling=range_ / range_[0], maxfevals=budget, verb_log=0, verb_disp=1, verbose=1
+    )
     es = CMAEvolutionStrategy(x0, sigma0 * range_[0], options)
     res = es.optimize(fun).result()
     xbest, ybest, nbeval, *rest = res
@@ -73,6 +70,7 @@ def _uniform_sampler(low, high):
 
     def sampler_(rng):
         return rng.uniform(0, 1, size=dim) * (high - low) + low
+
     return sampler_
 
 
@@ -88,7 +86,7 @@ def _run_opt(opt, feval, budget):
     return xbest, ybest, nbeval
 
 
-def main(nb_trials=15, budget_per_dim=100, output='benchmark.csv'):
+def main(nb_trials=15, budget_per_dim=100, output="benchmark.csv"):
     suite_instance = "year:2016"
     suite_name = "bbob"
     suite_options = ""
@@ -96,24 +94,27 @@ def main(nb_trials=15, budget_per_dim=100, output='benchmark.csv'):
     algos = [random_search, cma, ucb]
     stats = []
     for i, fun in enumerate(suite):
-        print('Function {}'.format(fun.name))
+        print("Function {}".format(fun.name))
         for algo in algos:
             algo_name = algo.__name__
             print('Algo : "{}"'.format(algo_name))
             for trial in range(nb_trials):
-                print('Running trial {}...'.format(trial + 1))
+                print("Running trial {}...".format(trial + 1))
                 t0 = time.time()
                 xbest, ybest, nbeval = algo(fun, budget_per_dim * fun.dimension)
                 delta_t = time.time() - t0
-                stats.append({
-                    'func': fun.id,
-                    'algo': algo_name,
-                    'nbeval': nbeval,
-                    'ybest': ybest,
-                    'duration': delta_t
-                })
+                stats.append(
+                    {
+                        "func": fun.id,
+                        "algo": algo_name,
+                        "nbeval": nbeval,
+                        "ybest": ybest,
+                        "duration": delta_t,
+                    }
+                )
     stats = pd.DataFrame(stats)
     stats.to_csv(output, index=False)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     run(main)

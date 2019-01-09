@@ -20,10 +20,7 @@ def unif_sampler(rng):
 
 
 def dict_unif_sampler(rng):
-    return {
-        'x': unif_sampler(rng),
-        'y': unif_sampler(rng)
-    }
+    return {"x": unif_sampler(rng), "y": unif_sampler(rng)}
 
 
 @pytest.mark.parametrize("optimizer_cls", opts)
@@ -50,12 +47,16 @@ def test_coherence(optimizer_cls):
     opt = optimizer_cls(unif_sampler)
     opt.update(x=1, y=2)
     pytest.raises(AssertionError, opt.update, x=[7], y=2)
-    pytest.raises(AssertionError, opt.update, x={'a': 5}, y=2)
+    pytest.raises(AssertionError, opt.update, x={"a": 5}, y=2)
 
     opt = optimizer_cls(unif_sampler)
     pytest.raises(AssertionError, opt.update_many, xlist=[1, [7]], ylist=[2])
-    pytest.raises(AssertionError, opt.update_many, xlist=[
-                  1, 2, 3, 4, {'a': 5}], ylist=[2, 2, 2, 2, 2])
+    pytest.raises(
+        AssertionError,
+        opt.update_many,
+        xlist=[1, 2, 3, 4, {"a": 5}],
+        ylist=[2, 2, 2, 2, 2],
+    )
 
     opt = optimizer_cls(unif_sampler)
     pytest.raises(AssertionError, opt.update_many, xlist=[1, 2], ylist=[2])

@@ -6,11 +6,7 @@ should follow.
 from .utils import check_types_coherence
 from .utils import check_if_list_of_scalars
 
-__all__ = [
-    "Optimizer",
-    "OptimizerWithHistory",
-    "OptimizerWithSurrogate"
-]
+__all__ = ["Optimizer", "OptimizerWithHistory", "OptimizerWithSurrogate"]
 
 
 class Optimizer(object):
@@ -50,7 +46,6 @@ class Optimizer(object):
 
 
 class OptimizerWithHistory(Optimizer):
-
     def __init__(self):
         self.input_history_ = []
         self.output_history_ = []
@@ -64,7 +59,6 @@ class OptimizerWithHistory(Optimizer):
 
 
 class OptimizerWithSurrogate(OptimizerWithHistory):
-
     def __init__(self, model):
         super(OptimizerWithSurrogate, self).__init__()
         self.model = model

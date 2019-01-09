@@ -13,7 +13,7 @@ __all__ = [
     "Wrapper",
     "vectorize",
     "vectorize_list_of_varying_length_lists",
-    "vectorize_list_of_dicts"
+    "vectorize_list_of_dicts",
 ]
 
 
@@ -96,7 +96,7 @@ def vectorize_list_of_dicts(dlist):
 
 def vectorize_list_of_varying_length_lists(X):
     # just consider it as a dict and use vectorize_list_of_dicts
-    dlist = [flatten_dict({'list': x}) for x in X]
+    dlist = [flatten_dict({"list": x}) for x in X]
     return vectorize_list_of_dicts(dlist)
 
 

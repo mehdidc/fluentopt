@@ -8,9 +8,7 @@ from .base import OptimizerWithHistory
 from .utils import check_random_state
 from .utils import check_sampler
 
-__all__ = [
-    "RandomSearch"
-]
+__all__ = ["RandomSearch"]
 
 
 class RandomSearch(OptimizerWithHistory):

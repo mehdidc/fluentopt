@@ -10,11 +10,7 @@ from .utils import check_random_state
 from .utils import check_sampler
 from .utils import argmax
 
-__all__ = [
-    "BayesianOptimizer",
-    "ucb_maximize",
-    "ucb_minimize"
-]
+__all__ = ["BayesianOptimizer", "ucb_maximize", "ucb_minimize"]
 
 
 def ucb_maximize(model, inputs, kappa=1.96):
@@ -108,12 +104,14 @@ class BayesianOptimizer(OptimizerWithSurrogate):
 
     """
 
-    def __init__(self,
-                 sampler,
-                 model=Wrapper(GaussianProcessRegressor(normalize_y=True)),
-                 nb_suggestions=100,
-                 score=ucb_maximize,
-                 random_state=None):
+    def __init__(
+        self,
+        sampler,
+        model=Wrapper(GaussianProcessRegressor(normalize_y=True)),
+        nb_suggestions=100,
+        score=ucb_maximize,
+        random_state=None,
+    ):
         super(BayesianOptimizer, self).__init__(model)
         self.sampler = check_sampler(sampler)
         self.rng = check_random_state(random_state)

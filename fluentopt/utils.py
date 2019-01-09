@@ -10,6 +10,7 @@ import numpy as np
 from sklearn.ensemble import RandomForestRegressor
 
 import random
+
 __all__ = [
     "check_sampler",
     "check_types_coherence",
@@ -18,7 +19,7 @@ __all__ = [
     "flatten_dict",
     "dict_vectorizer",
     "RandomForestRegressorWithUncertainty",
-    "check_random_state"
+    "check_random_state",
 ]
 
 
@@ -28,7 +29,7 @@ def check_random_state(seed):
 
 def check_sampler(sampler):
     """check whether sampler is a callable"""
-    assert callable(sampler), 'The sampler should be callable'
+    assert callable(sampler), "The sampler should be callable"
     return sampler
 
 
@@ -40,14 +41,15 @@ def _types_are_coherent(xlist):
     return all(map(lambda t: t == type(x0) or t == type(None), types))
 
 
-def check_types_coherence(xlist, varname='xlist'):
-    assert _types_are_coherent(xlist), 'Types should be coherent in {}'.format(varname)
+def check_types_coherence(xlist, varname="xlist"):
+    assert _types_are_coherent(xlist), "Types should be coherent in {}".format(varname)
     return xlist
 
 
-def check_if_list_of_scalars(ylist, varname='ylist'):
-    assert all(isinstance(y, float) or isinstance(y, int)
-               for y in ylist), 'The list {} should only contain scalars'.format(varname)
+def check_if_list_of_scalars(ylist, varname="ylist"):
+    assert all(
+        isinstance(y, float) or isinstance(y, int) for y in ylist
+    ), "The list {} should only contain scalars".format(varname)
     return ylist
 
 
@@ -77,7 +79,7 @@ def flatten_dict(D):
         elif isinstance(v, list) or isinstance(v, tuple):
             for i, l in enumerate(v):
                 if not isinstance(l, collections.Mapping):
-                    d[k + '_{}'.format(i)] = l
+                    d[k + "_{}".format(i)] = l
                 else:
                     for e in v:
                         d.update(flatten_dict(e))
@@ -124,7 +126,9 @@ class RandomForestRegressorWithUncertainty(RandomForestRegressor):
     def predict(self, X, return_std=False):
         if return_std:
             trees = self.estimators_
-            y = np.concatenate([tree.predict(X)[np.newaxis, :] for tree in trees], axis=0)
+            y = np.concatenate(
+                [tree.predict(X)[np.newaxis, :] for tree in trees], axis=0
+            )
             mean = y.mean(axis=0)
             std = y.std(axis=0)
             return mean, std
