@@ -1,5 +1,5 @@
 from .random import RandomSearch
-from .bandit import Bandit
+from .bayesianoptimizer import BayesianOptimizer
 
 __all__ = [
     "RandomSearch",

@@ -11,8 +11,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy import minimum
 
-from fluentopt import Bandit
-from fluentopt.bandit import ucb_minimize
+from fluentopt import BayesianOptimizer
+from fluentopt.bayesianoptimizer import ucb_minimize
 
 np.random.seed(42)
 
@@ -24,7 +24,7 @@ def sampler(rng):
 def feval(x):
     return (x ** 2 - 2)
 
-opt = Bandit(sampler=sampler, score=ucb_minimize)
+opt = BayesianOptimizer(sampler=sampler, score=ucb_minimize)
 n_iter = 100
 for _ in range(n_iter):
     x = opt.suggest()

@@ -12,8 +12,8 @@ from scipy import maximum
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import cross_val_score
 
-from fluentopt import Bandit
-from fluentopt.bandit import ucb_maximize
+from fluentopt import BayesianOptimizer 
+from fluentopt.bayesianoptimizer import ucb_maximize
 from fluentopt.utils import RandomForestRegressorWithUncertainty
 from fluentopt.transformers import Wrapper
 
@@ -36,7 +36,7 @@ def feval(d):
     scores = cross_val_score(clf, data_X, data_y, cv=5, scoring='accuracy')
     return np.mean(scores) - np.std(scores)
 
-opt = Bandit(sampler=sampler, score=ucb_maximize,
+opt = BayesianOptimizer(sampler=sampler, score=ucb_maximize,
              model=Wrapper(RandomForestRegressorWithUncertainty()))
 n_iter = 100
 for i in range(n_iter):

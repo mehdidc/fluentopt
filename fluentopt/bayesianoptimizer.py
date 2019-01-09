@@ -1,6 +1,5 @@
 """
-This module provides bandit based optimizers that use
-surrogates.
+This module provides bayesian optimizers.
 """
 
 from sklearn.gaussian_process import GaussianProcessRegressor
@@ -12,7 +11,7 @@ from .utils import check_sampler
 from .utils import argmax
 
 __all__ = [
-    "Bandit",
+    "BayesianOptimizer",
     "ucb_maximize",
     "ucb_minimize"
 ]
@@ -21,7 +20,7 @@ __all__ = [
 def ucb_maximize(model, inputs, kappa=1.96):
     """
     UCB score that can be used as
-    the `score` parameter of the `Bandit` optimizer.
+    the `score` parameter of the `BayesianOptimizer`.
     Use this score if the objective is maximization with ucb.
     UCB scores assume that the model can return std, that is,
     `model.predict` shoud accept a `return_std` parameter.
@@ -45,7 +44,7 @@ def ucb_maximize(model, inputs, kappa=1.96):
 def ucb_minimize(model, inputs, kappa=1.96):
     """
     UCB score that can be used as
-    the `score` parameter of the `Bandit` optimizer.
+    the `score` parameter of the `BayesianOptimizer`.
     Use this score if the objective is minimization.
     UCB scores assume that the model can return std, that is,
     `model.predict` shoud accept a `return_std` parameter.
@@ -60,13 +59,13 @@ def ucb_minimize(model, inputs, kappa=1.96):
     # ucb scores assume that the model can return std
     # an exception will be thrown if this is not the case
     pred, std = model.predict(inputs, return_std=True)
-    # the -(...) because we always maximize in the Bandit `Optimizer`
+    # the -(...) because we always maximize in the `BayesianOptimizer`
     return -(pred - kappa * std)
 
 
-class Bandit(OptimizerWithSurrogate):
+class BayesianOptimizer(OptimizerWithSurrogate):
     """
-    a bandit based optimizer which uses a surrogate to model
+    a bayesian optimization implementation which uses a surrogate to model
     the mapping between inputs and outputs. Each time `suggest`
     is called, a total of `nb_suggestions` inputs are sampled from
     `sampler`. A score is then calculated for each sampled input,
@@ -115,7 +114,7 @@ class Bandit(OptimizerWithSurrogate):
                  nb_suggestions=100,
                  score=ucb_maximize,
                  random_state=None):
-        super(Bandit, self).__init__(model)
+        super(BayesianOptimizer, self).__init__(model)
         self.sampler = check_sampler(sampler)
         self.rng = check_random_state(random_state)
         self.nb_suggestions = nb_suggestions
