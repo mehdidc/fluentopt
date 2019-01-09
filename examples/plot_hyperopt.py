@@ -13,7 +13,6 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import cross_val_score
 
 from fluentopt import BayesianOptimizer
-from fluentopt.bayesianoptimizer import ucb_maximize
 from fluentopt.utils import RandomForestRegressorWithUncertainty
 from fluentopt.transformers import Wrapper
 
@@ -41,7 +40,6 @@ def feval(d):
 
 opt = BayesianOptimizer(
     sampler=sampler,
-    score=ucb_maximize,
     model=Wrapper(RandomForestRegressorWithUncertainty()),
 )
 n_iter = 100

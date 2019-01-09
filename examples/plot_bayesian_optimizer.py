@@ -9,11 +9,10 @@ with bandit ucb.
 
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy import minimum
+from scipy import maximum
 
 from fluentopt import BayesianOptimizer
-from fluentopt.bayesianoptimizer import ucb_minimize
-
+from fluentopt.bayesianoptimizer import ei, ucb
 np.random.seed(42)
 
 
@@ -22,24 +21,24 @@ def sampler(rng):
 
 
 def feval(x):
-    return x ** 2 - 2
+    return -np.sin(5 * x) * (1 - np.tanh(x ** 2))
 
 
-opt = BayesianOptimizer(sampler=sampler, score=ucb_minimize)
+opt = BayesianOptimizer(sampler=sampler, score=ucb)
 n_iter = 100
 for _ in range(n_iter):
     x = opt.suggest()
     y = feval(x)
     opt.update(x=x, y=y)
 
-idx = np.argmin(opt.output_history_)
+idx = np.argmax(opt.output_history_)
 best_input = opt.input_history_[idx]
 best_output = opt.output_history_[idx]
 print("best input : {:.2f}, best output : {:.2f}".format(best_input, best_output))
 iters = np.arange(len(opt.output_history_))
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
 
-ax1.plot(iters, minimum.accumulate(opt.output_history_))
+ax1.plot(iters, maximum.accumulate(opt.output_history_))
 ax1.set_xlabel("iteration")
 ax1.set_ylabel("current $min_x({x**2-2})$")
 

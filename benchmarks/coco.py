@@ -26,8 +26,8 @@ import pandas as pd
 
 from cocoex import Suite, Observer
 
-from fluentopt import Bandit
-from fluentopt.bandit import ucb_minimize
+from fluentopt import BayesianOptimizer 
+from fluentopt.bayesianoptimizer import ucb_minimize
 from fluentopt.transformers import Wrapper
 from fluentopt import RandomSearch
 
@@ -53,7 +53,7 @@ def cma(fun, budget):
 
 def ucb(fun, budget):
     sampler = _uniform_sampler(low=fun.lower_bounds, high=fun.upper_bounds)
-    opt = Bandit(sampler=sampler, score=ucb_minimize, nb_suggestions=100)
+    opt = BayesianOptimizer(sampler=sampler, score=ucb_minimize, nb_suggestions=100)
     return _run_opt(opt, fun, budget)
 
 
