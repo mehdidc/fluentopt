@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from scipy import minimum
 
 from fluentopt import BayesianOptimizer
-from fluentopt.bayesianoptimizer import ucb_minimize
+from fluentopt.bayesianoptimizer import ucb
 
 np.random.seed(42)
 
@@ -39,7 +39,7 @@ def sampler(rng):
 
 feval = branin()
 
-opt = BayesianOptimizer(sampler=sampler, score=ucb_minimize)
+opt = BayesianOptimizer(sampler=sampler, score=ucb)
 n_iter = 200
 for _ in range(n_iter):
     x = opt.suggest()
